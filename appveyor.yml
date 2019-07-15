@@ -1,6 +1,9 @@
-image: Visual Studio 2019
+clone_folder: c:\gopath\src\github.com\FantasticFiasco\export-image-go
+
+environment:
+  GOPATH: c:\gopath
 
 build_script:
-  - ps: go version
+  - go version
 
 test: off
