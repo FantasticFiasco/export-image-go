@@ -1,9 +1,6 @@
-clone_folder: c:\gopath\src\github.com\FantasticFiasco\export-image-go
-
-environment:
-  GOPATH: c:\gopath
+image: ubuntu
 
 build_script:
-  - go version
+  - ./build/ci/build.sh
 
 test: off
