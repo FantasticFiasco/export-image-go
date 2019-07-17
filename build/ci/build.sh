@@ -12,3 +12,4 @@ golint ./...
 
 env GOOS=linux GOARCH=386 go build -o ./artifacts/exportimage ./cmd/exportimage
 env GOOS=windows GOARCH=386 go build -o ./artifacts/exportimage.exe ./cmd/exportimage
+cp ./cmd/exportimage/exportimage.yml ./artifacts

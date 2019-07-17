@@ -4,6 +4,7 @@ import (
     "fmt"
     "github.com/FantasticFiasco/export-image-go/internal/pkg/encoder"
     "github.com/FantasticFiasco/export-image-go/internal/pkg/errors"
+    "github.com/FantasticFiasco/export-image-go/internal/pkg/settings"
     "os"
     "path/filepath"
 )
@@ -13,7 +14,8 @@ func main() {
 
     fmt.Printf("Exporting %d images...\n", len(args))
 
-    encoder := encoder.New()
+    settings := settings.New()
+    encoder := encoder.New(settings.Quality)
 
     for index, filePath := range args  {
         dir, file := filepath.Split(filePath)

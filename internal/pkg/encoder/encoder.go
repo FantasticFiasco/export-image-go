@@ -6,15 +6,14 @@ import (
     "os"
 )
 
-var options = jpeg.Options{
-    Quality: 95,
-}
-
 type encoder struct {
+    Quality int
 }
 
-func New() encoder {
-    e := encoder{}
+func New(quality int) encoder {
+    e := encoder{
+        Quality: quality,
+    }
     return e
 }
 
@@ -27,6 +26,10 @@ func (e encoder) Encode(inputFile string, outputFile string) {
 
     w, err := os.Create(outputFile)
     errors.Check(err)
+
+    options := jpeg.Options{
+        Quality: e.Quality,
+    }
 
     err = jpeg.Encode(w, input, &options)
     errors.Check(err)
