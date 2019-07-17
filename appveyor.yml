@@ -4,3 +4,8 @@ build_script:
   - ./build/ci/build.sh
 
 test: off
+
+artifacts:
+  - path: ./artifacts
+    name: Application
+    type: zip
