@@ -6,18 +6,21 @@ import (
     "os"
 )
 
-type encoder struct {
+// Encoder is capable of encoding a JPEG image.
+type Encoder struct {
     Quality int
 }
 
-func New(quality int) encoder {
-    e := encoder{
+// New allocates and returns a new Encoder.
+func New(quality int) Encoder {
+    e := Encoder{
         Quality: quality,
     }
     return e
 }
 
-func (e encoder) Encode(inputFile string, outputFile string) {
+// Encode an input file into an output JPEG file.
+func (e Encoder) Encode(inputFile string, outputFile string) {
     r, err := os.Open(inputFile)
     errors.Check(err)
 

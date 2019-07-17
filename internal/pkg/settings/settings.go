@@ -8,11 +8,13 @@ import (
     "path/filepath"
 )
 
-type settings struct {
+// Settings is wrapping the YAML configuration file.
+type Settings struct {
 	Quality int `yaml:"quality"`
 }
 
-func New() settings {
+// New allocates and returns a new Encoder.
+func New() Settings {
     exec, err := os.Executable()
     errors.Check(err)
 
@@ -21,7 +23,7 @@ func New() settings {
     data, err := ioutil.ReadFile(file)
 	errors.Check(err)
 
-    s := settings{}
+    s := Settings{}
 	err = yaml.Unmarshal(data, &s)
 	errors.Check(err)
 
