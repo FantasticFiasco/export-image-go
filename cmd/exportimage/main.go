@@ -1,6 +1,7 @@
 package main
 
 import (
+    "bufio"
     "fmt"
     "github.com/FantasticFiasco/export-image-go/internal/pkg/encoder"
     "github.com/FantasticFiasco/export-image-go/internal/pkg/errors"
@@ -31,4 +32,15 @@ func main() {
     }
 
     fmt.Println("Done!")
+
+    if settings.PreventTermination {
+        preventTermination()
+    }
+}
+
+func preventTermination() {
+    fmt.Println("\nPress any key to continue...")
+    r := bufio.NewReader(os.Stdin)
+    _, _, err := r.ReadRune()
+    errors.Check(err)
 }

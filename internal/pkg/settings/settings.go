@@ -11,6 +11,7 @@ import (
 // Settings is wrapping the YAML configuration file.
 type Settings struct {
 	Quality int `yaml:"quality"`
+    PreventTermination bool `yaml:"preventTermination"`
 }
 
 // New allocates and returns a new Encoder.

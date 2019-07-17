@@ -1,2 +1,5 @@
 # Image quality index must be between 0 and 100 (compression from max to min)
 quality: 95
+
+# Whether the export process should be prevented termination
+preventTermination: false
