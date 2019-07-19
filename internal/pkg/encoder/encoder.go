@@ -9,13 +9,15 @@ import (
 
 // Encoder is capable of encoding a JPEG image.
 type Encoder struct {
-	Quality int
+	options jpeg.Options
 }
 
 // New allocates and returns a new Encoder.
 func New(quality int) Encoder {
-	return Encoder{
-		Quality: quality,
+    return Encoder{
+        options: jpeg.Options{
+            Quality: quality,
+        },
 	}
 }
 
@@ -32,10 +34,6 @@ func (e Encoder) Encode(inputFile string, outputFile string) {
 	errors.Check(err)
 	defer w.Close()
 
-	options := jpeg.Options{
-		Quality: e.Quality,
-	}
-
-	err = jpeg.Encode(w, input, &options)
+	err = jpeg.Encode(w, input, &e.options)
 	errors.Check(err)
 }
