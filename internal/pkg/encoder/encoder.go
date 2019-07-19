@@ -14,22 +14,23 @@ type Encoder struct {
 
 // New allocates and returns a new Encoder.
 func New(quality int) Encoder {
-    e := Encoder{
+    return Encoder{
         Quality: quality,
     }
-    return e
 }
 
 // Encode an input file into an output JPEG file.
 func (e Encoder) Encode(inputFile string, outputFile string) {
     r, err := os.Open(inputFile)
     errors.Check(err)
+    defer r.Close()
 
     input, err := jpeg.Decode(r)
     errors.Check(err)
 
     w, err := os.Create(outputFile)
     errors.Check(err)
+    defer  w.Close()
 
     options := jpeg.Options{
         Quality: e.Quality,
@@ -37,8 +38,4 @@ func (e Encoder) Encode(inputFile string, outputFile string) {
 
     err = jpeg.Encode(w, input, &options)
     errors.Check(err)
-
-    // TODO: Can we dispose these any other way?
-    r.Close()
-    w.Close()
 }

@@ -12,24 +12,22 @@ import (
 )
 
 func main() {
-    args := os.Args[1:]
+    files := os.Args[1:]
 
-    fmt.Printf("Exporting %d images...\n", len(args))
+    fmt.Printf("Exporting %d images...\n", len(files))
 
     settings := settings.New()
     encoder := encoder.New(settings.Quality)
 
-    for index, filePath := range args  {
-        dir, file := filepath.Split(filePath)
-        exportDir := filepath.Join(dir, "Exported")
-        exportFilePath := filepath.Join(exportDir, file)
+    for i, f := range files {
+        outDir, outFile := getOutPaths(f)
 
-        fmt.Printf("%d/%d\t-> %s\n", index + 1, len(args), exportFilePath)
+        fmt.Printf("%d/%d\t-> %s\n", i + 1, len(files), outFile)
 
-        err := os.MkdirAll(exportDir, os.ModePerm)
+        err := os.MkdirAll(outDir, os.ModePerm)
         errors.Check(err)
 
-        encoder.Encode(filePath, exportFilePath)
+        encoder.Encode(f, outFile)
     }
 
     fmt.Println("Done!")
@@ -37,6 +35,13 @@ func main() {
     if settings.PreventTermination {
         preventTermination()
     }
+}
+
+func getOutPaths(file string) (outDir string, outFile string) {
+    dir, fileName := filepath.Split(file)
+    outDir = filepath.Join(dir, "Exported")
+    outFile = filepath.Join(outDir, fileName)
+    return
 }
 
 func preventTermination() {

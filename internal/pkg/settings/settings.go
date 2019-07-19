@@ -20,9 +20,9 @@ func New() Settings {
     exec, err := os.Executable()
     errors.Check(err)
 
-    file := filepath.Join(filepath.Dir(exec), "exportimage.yml")
+    f := filepath.Join(filepath.Dir(exec), "exportimage.yml")
 
-    data, err := ioutil.ReadFile(file)
+    data, err := ioutil.ReadFile(f)
 	errors.Check(err)
 
     var s Settings
