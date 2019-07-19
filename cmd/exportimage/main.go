@@ -11,6 +11,10 @@ import (
 	"github.com/FantasticFiasco/export-image-go/internal/pkg/settings"
 )
 
+// TODO: When should we use structs or interfaces in packages?
+// TODO: How do we implement error handling?
+// TODO: Implement output file being equal to input file
+
 func main() {
 	files := os.Args[1:]
 
