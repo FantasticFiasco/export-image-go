@@ -1,9 +1,10 @@
 package encoder
 
 import (
-    "github.com/FantasticFiasco/export-image-go/internal/pkg/errors"
     "image/jpeg"
     "os"
+
+    "github.com/FantasticFiasco/export-image-go/internal/pkg/errors"
 )
 
 // Encoder is capable of encoding a JPEG image.

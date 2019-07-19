@@ -1,11 +1,12 @@
 package settings
 
 import (
-    "github.com/FantasticFiasco/export-image-go/internal/pkg/errors"
-    "gopkg.in/yaml.v2"
     "io/ioutil"
     "os"
     "path/filepath"
+
+    "github.com/FantasticFiasco/export-image-go/internal/pkg/errors"
+    "gopkg.in/yaml.v2"
 )
 
 // Settings is wrapping the YAML configuration file.
@@ -24,7 +25,7 @@ func New() Settings {
     data, err := ioutil.ReadFile(file)
 	errors.Check(err)
 
-    s := Settings{}
+    var s Settings
 	err = yaml.Unmarshal(data, &s)
 	errors.Check(err)
 

@@ -3,11 +3,12 @@ package main
 import (
     "bufio"
     "fmt"
+    "os"
+    "path/filepath"
+
     "github.com/FantasticFiasco/export-image-go/internal/pkg/encoder"
     "github.com/FantasticFiasco/export-image-go/internal/pkg/errors"
     "github.com/FantasticFiasco/export-image-go/internal/pkg/settings"
-    "os"
-    "path/filepath"
 )
 
 func main() {
