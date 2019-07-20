@@ -13,7 +13,6 @@ import (
 
 // TODO: When should we use structs or interfaces in packages?
 // TODO: How do we implement error handling?
-// TODO: Implement output file being equal to input file
 
 func main() {
 	files := os.Args[1:]
@@ -24,7 +23,7 @@ func main() {
 	encoder := encoder.New(settings.Quality)
 
 	for i, f := range files {
-		outDir, outFile := getOutPaths(f)
+		outDir, outFile := getOutPaths(f, settings.SubDirectory)
 
 		fmt.Printf("%d/%d\t-> %s\n", i+1, len(files), outFile)
 
@@ -41,9 +40,9 @@ func main() {
 	}
 }
 
-func getOutPaths(file string) (outDir string, outFile string) {
+func getOutPaths(file string, subDirectory string) (outDir string, outFile string) {
 	dir, fileName := filepath.Split(file)
-	outDir = filepath.Join(dir, "Exported")
+	outDir = filepath.Join(dir, subDirectory)
 	outFile = filepath.Join(outDir, fileName)
 	return
 }

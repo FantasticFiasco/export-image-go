@@ -1,5 +1,9 @@
 # Image quality index must be between 0 and 100 (compression from max to min)
 quality: 95
 
+# The relative sub directory where the exported image will be saved. If set to an empty string, the
+# original image will be overwritten.
+subDirectory: "Exported"
+
 # Whether the export process should be prevented termination
 preventTermination: false
