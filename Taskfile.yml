@@ -1,0 +1,54 @@
+version: '2'
+
+tasks:
+
+  vet:
+    cmds:
+      - go vet ./...
+
+  lint:
+    cmds:
+      - go get golang.org/x/lint/golint
+      - golint -set_exit_status ./...
+
+  copy-configuration:
+    cmds:
+      - mkdir -p ./artifacts
+      - cp ./cmd/exportimage/exportimage.yml ./artifacts/exportimage.yml
+
+  build-linux:
+    deps:
+      - copy-configuration
+    cmds:
+      - env GOOS=linux GOARCH=386 go build -o ./artifacts/exportimage ./cmd/exportimage
+
+  build-windows:
+    deps:
+      - copy-configuration
+    cmds:
+      - env GOOS=windows GOARCH=386 go build -o ./artifacts/exportimage.exe ./cmd/exportimage
+
+  build:
+    cmds:
+      - task: vet
+      - task: lint
+      - task: build-linux
+      - task: build-windows
+
+  run-linux:
+    deps:
+      - build-linux
+    cmds:
+      - >
+        ./artifacts/exportimage
+        ./assets/image1.jpg ./assets/image2.jpg ./assets/image3.jpg ./assets/image4.jpg ./assets/image5.jpg
+        ./assets/image6.jpg ./assets/image7.jpg ./assets/image8.jpg ./assets/image9.jpg ./assets/image10.jpg
+
+  run-windows:
+    deps:
+      - build-windows
+    cmds:
+      - >
+        ./artifacts/exportimage.exe
+        ./assets/image1.jpg ./assets/image2.jpg ./assets/image3.jpg ./assets/image4.jpg ./assets/image5.jpg
+        ./assets/image6.jpg ./assets/image7.jpg ./assets/image8.jpg ./assets/image9.jpg ./assets/image10.jpg

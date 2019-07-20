@@ -1,7 +1,10 @@
 image: ubuntu
 
+install:
+  - curl -sL https://taskfile.dev/install.sh | sh
+
 build_script:
-  - ./build/ci/build.sh
+  - ./bin/task build
 
 test: off
 
