@@ -8,6 +8,7 @@ import (
 )
 
 // TODO: When should we use structs or interfaces in packages?
+// TODO: When should we use pointers?
 // TODO: How do we implement error handling?
 
 func main() {
