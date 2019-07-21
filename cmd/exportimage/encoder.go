@@ -1,20 +1,18 @@
-package encoder
+package main
 
 import (
 	"image/jpeg"
 	"os"
-
-	"github.com/FantasticFiasco/export-image-go/internal/pkg/errors"
 )
 
 // Encoder is capable of encoding a JPEG image.
-type Encoder struct {
+type encoder struct {
 	options jpeg.Options
 }
 
 // New allocates and returns a new Encoder.
-func New(quality int) Encoder {
-    return Encoder{
+func newEncoder(quality int) encoder {
+    return encoder{
         options: jpeg.Options{
             Quality: quality,
         },
@@ -22,18 +20,18 @@ func New(quality int) Encoder {
 }
 
 // Encode an input file into an output JPEG file.
-func (e Encoder) Encode(inputFile string, outputFile string) {
+func (e encoder) encode(inputFile string, outputFile string) {
 	r, err := os.Open(inputFile)
-	errors.Check(err)
+	check(err)
 	defer r.Close()
 
 	input, err := jpeg.Decode(r)
-	errors.Check(err)
+	check(err)
 
 	w, err := os.Create(outputFile)
-	errors.Check(err)
+	check(err)
 	defer w.Close()
 
 	err = jpeg.Encode(w, input, &e.options)
-	errors.Check(err)
+	check(err)
 }

@@ -5,10 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-
-	"github.com/FantasticFiasco/export-image-go/internal/pkg/encoder"
-	"github.com/FantasticFiasco/export-image-go/internal/pkg/errors"
-	"github.com/FantasticFiasco/export-image-go/internal/pkg/settings"
 )
 
 // TODO: When should we use structs or interfaces in packages?
@@ -19,8 +15,8 @@ func main() {
 
 	fmt.Printf("Exporting %d images...\n", len(files))
 
-	settings := settings.New()
-	encoder := encoder.New(settings.Quality)
+	settings := newSettings()
+	encoder := newEncoder(settings.Quality)
 
 	for i, f := range files {
 		outDir, outFile := getOutPaths(f, settings.SubDirectory)
@@ -28,9 +24,9 @@ func main() {
 		fmt.Printf("%d/%d\t-> %s\n", i+1, len(files), outFile)
 
 		err := os.MkdirAll(outDir, os.ModePerm)
-		errors.Check(err)
+		check(err)
 
-		encoder.Encode(f, outFile)
+		encoder.encode(f, outFile)
 	}
 
 	fmt.Println("Done!")
@@ -51,5 +47,5 @@ func preventTermination() {
 	fmt.Println("\nPress any key to continue...")
 	r := bufio.NewReader(os.Stdin)
 	_, _, err := r.ReadRune()
-	errors.Check(err)
+	check(err)
 }
