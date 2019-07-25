@@ -16,7 +16,9 @@ func main() {
 
 	fmt.Printf("Exporting %d images...\n", len(files))
 
-	settings := newSettings()
+	settings, err := newSettings()
+	check(err)
+
 	encoder := newEncoder(settings.Quality)
 
 	for i, f := range files {
@@ -27,7 +29,8 @@ func main() {
 		err := os.MkdirAll(outDir, os.ModePerm)
 		check(err)
 
-		encoder.encode(f, outFile)
+		err = encoder.encode(f, outFile)
+		check(err)
 	}
 
 	fmt.Println("Done!")
@@ -35,6 +38,12 @@ func main() {
 	if settings.PreventTermination {
 		preventTermination()
 	}
+}
+
+func check(err error) {
+    if err != nil {
+        panic(err)
+    }
 }
 
 func getOutPaths(file string, subDirectory string) (outDir string, outFile string) {

@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
+    "github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
 )
 
@@ -16,18 +17,25 @@ type settings struct {
 }
 
 // New allocates and returns a new Encoder.
-func newSettings() settings {
-	exec, err := os.Executable()
-	check(err)
+func newSettings() (settings, error) {
+    var s settings
+
+    exec, err := os.Executable()
+    if err != nil {
+        return s, errors.Wrap(err, "get running executable failed")
+    }
 
 	f := filepath.Join(filepath.Dir(exec), "exportimage.yml")
 
 	data, err := ioutil.ReadFile(f)
-	check(err)
+    if err != nil {
+        return s, errors.Wrap(err, "read settings file failed")
+    }
 
-	var s settings
 	err = yaml.Unmarshal(data, &s)
-	check(err)
+    if err != nil {
+        return  s, errors.Wrap(err, "deserializing settings file failed")
+    }
 
-	return s
+	return s, nil
 }

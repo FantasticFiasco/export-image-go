@@ -1,8 +1,10 @@
 package main
 
 import (
-	"image/jpeg"
+    "image/jpeg"
 	"os"
+
+    "github.com/pkg/errors"
 )
 
 // Encoder is capable of encoding a JPEG image.
@@ -20,18 +22,28 @@ func newEncoder(quality int) encoder {
 }
 
 // Encode an input file into an output JPEG file.
-func (e encoder) encode(inputFile string, outputFile string) {
+func (e encoder) encode(inputFile string, outputFile string) error {
 	r, err := os.Open(inputFile)
-	check(err)
-	defer r.Close()
+	if err != nil {
+	    return errors.Wrapf(err, "open image %s failed", inputFile)
+    }
+    defer r.Close()
 
 	input, err := jpeg.Decode(r)
-	check(err)
+    if err != nil {
+        return errors.Wrapf(err, "decode image %s failed", inputFile)
+    }
 
 	w, err := os.Create(outputFile)
-	check(err)
+	if err != nil {
+	    return errors.Wrapf(err, "create file %s failed", outputFile)
+    }
 	defer w.Close()
 
 	err = jpeg.Encode(w, input, &e.options)
-	check(err)
+    if err != nil {
+        return errors.Wrapf(err, "encode image %s failed", outputFile)
+    }
+
+	return  nil
 }
