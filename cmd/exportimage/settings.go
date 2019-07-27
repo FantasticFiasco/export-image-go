@@ -19,20 +19,20 @@ type settings struct {
 func newSettings() (s settings, err error) {
     exec, err := os.Executable()
     if err != nil {
-        return s, err
+        return
     }
 
 	f := filepath.Join(filepath.Dir(exec), "exportimage.yml")
 
 	data, err := ioutil.ReadFile(f)
     if err != nil {
-        return s, err
+        return
     }
 
 	err = yaml.Unmarshal(data, &s)
     if err != nil {
-        return  s, err
+        return
     }
 
-	return s, nil
+	return
 }

@@ -23,25 +23,32 @@ func newEncoder(quality int) encoder {
 func (e encoder) encode(inputFile string, outputFile string) (err error) {
 	r, err := os.Open(inputFile)
 	if err != nil {
-	    return err
+	    return
     }
-    defer r.Close()
+	defer func() {
+	    closeErr := r.Close()
+        if closeErr != nil {
+            err = closeErr
+        }
+    }()
 
 	input, err := jpeg.Decode(r)
     if err != nil {
-        return err
+        return
     }
 
 	w, err := os.Create(outputFile)
-	if err != nil {
-	    return err
-    }
-	defer w.Close()
+	defer func() {
+        closeErr := w.Close()
+        if closeErr != nil {
+            err = closeErr
+        }
+    }()
 
 	err = jpeg.Encode(w, input, &e.options)
     if err != nil {
-        return err
+        return
     }
 
-	return nil
+	return
 }
